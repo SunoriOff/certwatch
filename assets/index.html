@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CertWatch</title>
+<link rel="stylesheet" href="/style.css">
+<script src="/app.js" defer></script>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="logo" aria-hidden="true"></span>CertWatch</div>
+  <div class="meta" id="meta">Chargement…</div>
+  <button type="button" id="scanBtn" class="btn" hidden>Relancer un scan</button>
+</header>
+<main>
+  <section class="cards" id="cards" aria-label="Synthèse"></section>
+  <div class="tools">
+    <input id="q" type="search" placeholder="Filtrer par nom, hôte, émetteur, étiquette…" aria-label="Filtrer">
+    <span class="count" id="count"></span>
+  </div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Statut</th><th>Cible</th><th>Hôte</th><th class="num">Jours</th><th>Échéance</th><th>Émetteur</th><th>Détail</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+  <p class="empty" id="empty" hidden>Aucune cible ne correspond.</p>
+</main>
+<footer>CertWatch <span id="ver"></span> · <a href="/metrics">métriques Prometheus</a> · <a href="/api/status">API JSON</a></footer>
+</body>
+</html>

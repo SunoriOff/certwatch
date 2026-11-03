@@ -1,0 +1,16 @@
+# Dans certwatch.toml, mettre : listen = "0.0.0.0:8088" et state_file = "/data/certwatch-state.json"
+services:
+  certwatch:
+    build: ..
+    image: certwatch:latest
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    ports:
+      - "127.0.0.1:8088:8088"   # derrière un reverse proxy ; ne pas exposer tel quel
+    volumes:
+      - ./certwatch.toml:/etc/certwatch/certwatch.toml:ro
+      - certwatch-data:/data
+volumes:
+  certwatch-data:

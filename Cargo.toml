@@ -1,0 +1,42 @@
+[package]
+name = "certwatch"
+version = "0.1.0"
+edition = "2024"
+description = "Surveillance des certificats TLS : expirations, chaînes invalides, alertes et tableau de bord."
+license = "MIT"
+authors = ["Joris Pelaud"]
+repository = "https://github.com/SunoriOff/certwatch"
+readme = "README.md"
+keywords = ["tls", "certificate", "monitoring", "ssl", "expiry"]
+categories = ["command-line-utilities", "network-programming"]
+rust-version = "1.88"
+
+[dependencies]
+anyhow = "1.0.104"
+axum = "0.8.9"
+base64 = "0.23.1"
+clap = { version = "4.6.7", features = ["derive"] }
+futures = "0.3.34"
+reqwest = { version = "0.13.5", default-features = false, features = ["rustls-no-provider", "json"] }
+rustls = { version = "0.23.46", default-features = false, features = ["ring", "std", "tls12", "logging"] }
+rustls-pemfile = "2.2.0"
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+time = { version = "0.3.55", features = ["formatting", "macros"] }
+tokio = { version = "1.54.1", features = ["full"] }
+tokio-rustls = { version = "0.26.6", default-features = false, features = ["ring", "tls12", "logging"] }
+toml = "1.1.8"
+tracing = "0.1.44"
+tracing-subscriber = { version = "0.3.23", features = ["env-filter"] }
+webpki-roots = "1.0.11"
+x509-parser = "0.18.1"
+
+[dev-dependencies]
+rcgen = { version = "0.14.10", default-features = false, features = ["ring", "pem"] }
+tempfile = "3.27.0"
+tower = { version = "0.5.3", features = ["util"] }
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true

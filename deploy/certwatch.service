@@ -1,0 +1,31 @@
+# /etc/systemd/system/certwatch.service
+# Dans /etc/certwatch/certwatch.toml : state_file = "/var/lib/certwatch/certwatch-state.json"
+[Unit]
+Description=CertWatch - surveillance des certificats TLS
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/certwatch -c /etc/certwatch/certwatch.toml serve
+DynamicUser=yes
+StateDirectory=certwatch
+WorkingDirectory=/var/lib/certwatch
+Restart=on-failure
+# Durcissement
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_INET AF_INET6
+RestrictNamespaces=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+SystemCallFilter=@system-service
+CapabilityBoundingSet=
+
+[Install]
+WantedBy=multi-user.target

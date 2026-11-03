@@ -1,0 +1,66 @@
+# CertWatch — exemple de configuration
+# Générer ce fichier : certwatch init > certwatch.toml
+
+[settings]
+warning_days = 30          # « À renouveler » sous ce nombre de jours
+critical_days = 14         # « Critique » sous ce nombre de jours
+timeout_secs = 10
+concurrency = 16           # vérifications simultanées
+interval_minutes = 360     # mode serve : un scan toutes les 6 h
+listen = "127.0.0.1:8088"  # tableau de bord et API (mode serve)
+state_file = "certwatch-state.json"
+reminder_hours = 24        # relance tant que le problème n'est pas réglé (0 = jamais)
+
+# PKI interne : CA à approuver en plus des autorités publiques
+# ca_files = ["ca-interne.pem"]
+# only_custom_ca = false
+
+# Une longue liste ? Un hôte par ligne, étiquettes facultatives :
+# targets_file = "cibles.txt"
+
+# Proxy d'entreprise (méthode CONNECT) :
+# proxy = "http://proxy.exemple.local:3128"
+# use_env_proxy = true     # sinon lire HTTPS_PROXY / NO_PROXY
+# no_proxy = [".exemple.local", "10.0.0.5"]
+
+# Scan manuel depuis le tableau de bord (POST /api/scan avec ce jeton) :
+# api_token = "change-moi"
+
+# --- Alertes : envoyées quand un statut change, et au retour à la normale ---
+# [[alert]]
+# kind = "teams"           # webhook | slack | teams
+# url = "https://exemple.webhook.office.com/..."
+# min_status = "warning"
+# tags = ["prod"]          # facultatif : seulement ces cibles
+
+# --- Cibles ---
+[[target]]
+host = "www.exemple.fr"
+name = "Site public"
+tags = ["prod", "web"]
+
+[[target]]
+host = "messagerie.exemple.fr"
+port = 443
+tags = ["prod"]
+warning_days = 45          # seuil propre à cette cible
+
+[[target]]
+host = "ldap.exemple.local"
+port = 636                 # LDAPS : tout service TLS direct fonctionne
+name = "Annuaire LDAPS"
+tags = ["interne"]
+
+[[target]]
+host = "smtp.exemple.fr"
+port = 587
+starttls = "smtp"          # aussi : imap (143), pop3 (110)
+name = "Relais de messagerie"
+tags = ["prod"]
+
+[[target]]
+host = "10.0.0.20"
+port = 8443
+sni = "console.exemple.local"   # nom envoyé et vérifié dans le certificat
+name = "Console hyperviseur"
+tags = ["interne"]
