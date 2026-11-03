@@ -176,4 +176,4 @@ Les tests d'intégration fabriquent une CA et des certificats pour chaque cas : 
 
 ## Licence
 
-MIT — Joris Pelaud
+WTFPL — Joris Pelaud
